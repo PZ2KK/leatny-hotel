@@ -83,7 +83,7 @@ export default function Hero() {
             <div className="p-6 text-center">
               <div className="p-4 bg-green-50 text-green-800 rounded-md">
                 <p className="font-medium text-xl">Thank you for your inquiry!</p>
-                <p className="mt-1 text-sm">We've received your information and will contact you as soon as we find a suitable room.</p>
+                <p className="mt-1 text-sm">We&apos;ve received your information and will contact you as soon as we find a suitable room.</p>
                 <button
                   type="button"
                   onClick={() => {
