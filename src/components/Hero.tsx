@@ -33,6 +33,27 @@ export default function Hero() {
     setError(null);
 
     try {
+      // Send to Make.com webhook
+      const response = await fetch('https://hook.eu2.make.com/neavnqol6vkay2vrb35ld0w4d9r6lak2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          guests: formData.guests,
+          hasChildren: formData.hasChildren === 'yes',
+          budget: formData.budget,
+          email: formData.email,
+          submittedAt: new Date().toISOString()
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+      
+      // Optional: Also save to Convex if needed
       await createBooking({
         name: formData.name,
         guests: formData.guests,

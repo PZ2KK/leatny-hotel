@@ -59,11 +59,11 @@ const handleWebhook = httpAction(async (ctx, request) => {
 });
 
 // HTTP router for webhooks
-const http = httpRouter();
-http.route({
-  path: '/webhook/make',
-  method: 'POST',
-  handler: handleWebhook,
-});
+// const http = httpRouter();
+// http.route({
+//   path: '/webhook/make',
+//   method: 'POST',
+//   handler: handleWebhook,
+// });
 
-export default http;
+// export default http;
