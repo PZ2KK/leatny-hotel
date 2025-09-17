@@ -33,24 +33,33 @@ export default function Hero() {
     setError(null);
 
     try {
+      const webhookData = {
+        name: formData.name,
+        guests: formData.guests,
+        hasChildren: formData.hasChildren === 'yes',
+        budget: formData.budget,
+        email: formData.email,
+        submittedAt: new Date().toISOString()
+      };
+      console.log('Sending to Make.com:', webhookData);
+      
       // Send to Make.com webhook
       const response = await fetch('https://hook.eu2.make.com/neavnqol6vkay2vrb35ld0w4d9r6lak2', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name: formData.name,
-          guests: formData.guests,
-          hasChildren: formData.hasChildren === 'yes',
-          budget: formData.budget,
-          email: formData.email,
-          submittedAt: new Date().toISOString()
-        })
+        body: JSON.stringify(webhookData)
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit form');
+        const errorText = await response.text();
+        console.error('Webhook error:', {
+          status: response.status,
+          statusText: response.statusText,
+          error: errorText
+        });
+        throw new Error(`Failed to submit form: ${response.status} ${response.statusText}`);
       }
       
       // Optional: Also save to Convex if needed
@@ -71,9 +80,9 @@ export default function Hero() {
         budget: "",
         email: ""
       });
-    } catch (err) {
-      console.error('Error submitting form:', err);
-      setError('Failed to submit form. Please try again.');
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setError(error instanceof Error ? error.message : 'An unknown error occurred');
     } finally {
       setIsLoading(false);
     }
